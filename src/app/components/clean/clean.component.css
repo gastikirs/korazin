@@ -1,0 +1,8 @@
+.clean__completed-task {
+    background-color: seagreen;
+}
+
+.clean__checkbox {
+    transform: scale(2);
+    padding: 1.5rem;
+}

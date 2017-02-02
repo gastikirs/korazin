@@ -1,0 +1,30 @@
+<h3 class="text-center">Something broke? Just add it to the list.</h3>
+<div class="row">
+	<div class="columns small-8 small-centered">
+		<div class="callout">
+			<div class="callout__header text-center">
+				<h5>Broken Things List</h5>
+				<hr>
+			</div>
+			<ul>
+				<h3 *ngIf="loadingData">Fetching data...</h3>
+				<h4 *ngIf="breaks.length == 0 && !loadingData" class="text-center">Nothing broken!</h4>
+				<li *ngFor="let break of breaks">- <strong>{{break.item}}</strong> was reported by <strong>{{break.author}}</strong> on {{break.createdAt}} - <span class="delete-text" (click)="deleteBreak(break.$key)"> delete</span></li>
+			</ul>
+		</div>
+		<div class="text-center">
+			<button (click)="changeState('add')" type="button" class="button hollow alert">I broke something!</button>
+		</div>
+	</div>
+</div>
+
+<div *ngIf="appState=='add'" class="row">
+	<h4 class="text-center">What did you break?</h4>
+	<div class="columns small-12 medium-6 small-centered">
+		<form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+			<input type="text" placeholder="Item name" formControlName="item">
+			<button class="button hollow expanded">Ouch!</button>
+		</form>
+	</div>
+
+</div>

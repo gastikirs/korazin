@@ -1,0 +1,11 @@
+<h4>Clean stats</h4>
+<div class="callout">
+  <p *ngFor="let cleanStat of cleanStats">{{cleanStat.name}} has cleaned {{cleanStat.count}} times so far.</p>
+</div>
+
+<h4>Automatic advice</h4>
+<div class="callout">
+	<span *ngFor="let cleanStat of cleanStats | slice:0:1"><strong>{{cleanStat.name}} ({{cleanStat.count}})</strong></span> and <span *ngFor="let cleanStat of cleanStats | slice:1:2"><strong>{{cleanStat.name}} ({{cleanStat.count}})</strong></span> should clean next.
+</div>
+
+

@@ -1,0 +1,18 @@
+<div class="top-bar">
+  <div class="top-bar-left">
+    <ul class="menu">
+      <li class="menu-text">Korazin App</li>
+      <li *ngIf="isAuth()"><a routerLink="/expenses">Expenses Sheet</a></li>
+      <li *ngIf="isAuth()"><a routerLink="/clean">Cleaning Sheet</a></li>
+      <li *ngIf="isAuth()"><a routerLink="/break">Break Sheet</a></li>
+      </ul>
+  </div>
+  <div class="top-bar-right">
+  	<ul class="menu" *ngIf="isAuth()">
+      <li>User: {{getName() | capitalize}}</li>
+  		<li (click)="logout()"><a>Logout</a></li>
+  	</ul>
+  </div>
+</div>
+<br>
+<router-outlet></router-outlet>

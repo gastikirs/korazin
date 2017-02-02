@@ -1,0 +1,136 @@
+<!--Edit task form-->
+
+<div *ngIf="appState=='edit'">
+  <div class="small-12 small-centered">
+    <form (submit)="editClean()"> 
+      <div class="row">
+        <div class="large-4 columns">
+          <label> Date
+            <input type="date" name="date" [(ngModel)]="activeDate" placeholder="Enter the date">
+          </label>
+        </div>
+
+        <div class="large-2 columns">
+          <label> Author 1 </label>
+            <select name="author1" [(ngModel)]="activeAuthor_1" required>
+              <option value="" disabled>Select Author</option>
+              <option *ngFor="let cleanAuthor of cleanAuthors">{{cleanAuthor.name}}</option>
+            </select>
+        </div>
+        <div class="large-2 columns">
+          <label> Author 2 </label>
+            <select name="author2" [(ngModel)]="activeAuthor_2" required>
+              <option value="" disabled>Select Author</option>
+              <option *ngFor="let cleanAuthor of cleanAuthors">{{cleanAuthor.name}}</option>
+            </select>         
+        </div>
+
+
+        <div class="large-4 columns">
+          <label> Task
+            <select name="task" [(ngModel)]="activeTask" required>
+              <option value="" disabled>Select the Task</option>
+              <option value="Clean the house">Clean the house</option>
+            </select>
+          </label>
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="small-12 small-centered text-center">
+          <input type="submit" class="button" value="Edit task!" />
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<div class="row">
+    <div *ngIf="loadingTable == true" class="text-center"><span class="label">Fetching data...</span></div>
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Authors</th>
+          <th>Task</th>
+          <th>Completed</th>
+          <th>Options</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let clean of cleans" [ngClass]="{ 'clean__completed-task': clean.completed }">
+          <td>{{clean.date}}</td>
+          <td>{{clean.authors}}</td>
+          <td>{{clean.task}}</td>
+          <td class="text-center"><input type="checkbox" class="clean__checkbox" [checked]="clean.completed" (click)="changeComplete(clean)"></td>
+          <td class="text-center">
+            <button (click)="showEdit(clean)" class="button warning">Edit</button>
+            <button (click)="deleteClean(clean.$key, clean.authors, clean.completed)" class="button alert">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table><hr>
+    <div *ngIf="appState=='default'" class="text-center"><button class="button hollow" (click)="changeState('add')">Add Task</button></div>
+
+
+<!--Add new task form-->
+
+<div *ngIf="appState=='add'">
+  <div class="small-12 small-centered">
+    <form (submit)="addCleanTask(
+      date.value,
+      author1.value,
+      author2.value,
+      task.value
+    )"> 
+      <div class="row">
+        <div class="large-4 columns">
+          <label> Date
+            <input type="date" required #date placeholder="Enter the date">
+          </label>
+        </div>
+
+        <div class="large-2 columns">
+          <label> Author 1 </label>
+            <select name="author1" #author1 required>
+              <option value="">Select Author</option>
+              <option *ngFor="let cleanAuthor of cleanAuthors" value="{{cleanAuthor.name}}">{{cleanAuthor.name}}</option>
+            </select>
+        </div>
+        <div class="large-2 columns">
+          <label> Author 2 </label>
+            <select name="authors" #author2 required>
+              <option value="">Select Author</option>
+              <option *ngFor="let cleanAuthor of cleanAuthors" value="{{cleanAuthor.name}}">{{cleanAuthor.name}}</option>
+            </select>         
+        </div>
+
+        <div class="large-4 columns">
+          <label> Task
+            <select name="task" #task required>
+              <option value="">Select the Task</option>
+              <option value="Clean the house">Clean the house</option>
+            </select>
+          </label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="small-12 small-centered text-center">
+          <input type="submit" class="button" value="Submit" />
+          <input type="button" (click)="cancelNewClean()" class="button" value="Cancel">
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+    <h4>Incoming clean</h4>
+    <div *ngFor="let next of notCompCleans" class="callout primary"><strong>{{next.authors}}</strong> have to {{next.task | lowercase}} on <strong>{{next.date}}</strong></div>
+    <div *ngIf="notCompCleans.length == 0" class="callout alert"><h5>Please add new clean tasks to the schedule.</h5></div>
+    
+    <kz-clean-stats></kz-clean-stats>
+
+  </div>
+
